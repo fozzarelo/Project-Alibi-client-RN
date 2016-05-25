@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, TouchableHighlight} from 'react-native';
 
-module.exports = React.createClass({
-  render: function(){
+export default class Button extends React.Component {
+  render() {
     return (
       <TouchableHighlight
-        underlayColor={'gray'}
         style={styles.button}
+        underlayColor={'gray'}
         onPress={this.props.onPress}
         >
-        <Text style={styles.buttonText}>{this.props.text}</Text>
+        <Text style={styles.buttonText}>
+          {this.props.text}
+        </Text>
       </TouchableHighlight>
     );
   }
-});
+}
 var styles = StyleSheet.create({
   button: {
     justifyContent: 'center',

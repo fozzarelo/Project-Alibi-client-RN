@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {AppRegistry} from 'react-native';
 
-var Main = require('./src/main');
+import Main from './src/main';
 
 AppRegistry.registerComponent('login', () => Main)
