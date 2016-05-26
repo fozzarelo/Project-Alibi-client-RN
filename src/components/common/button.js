@@ -18,17 +18,19 @@ export default class Button extends React.Component {
 }
 var styles = StyleSheet.create({
   button: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 5,
-    borderColor: 'black',
-    marginTop: 10
+    backgroundColor: '#05A5D1',
+      padding: 10,
+      borderColor: 'transparent',
+      borderWidth:2,
+      alignSelf: 'center',
+    borderRadius: 10,
+    width: 150,
+    height: 45,
+    marginTop: 18
   },
   buttonText: {
-    fontSize: 20,
-    flex: 1,
-    alignSelf: 'center'
+    color: '#fff',
+    alignSelf: 'center',
+    fontSize: 18
   }
 });

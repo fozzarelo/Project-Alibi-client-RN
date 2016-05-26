@@ -4,8 +4,9 @@ import {StyleSheet, Navigator} from 'react-native';
 import Signin from './components/authentication/signin';
 import Signup from './components/authentication/signup';
 import Tweets from './components/tweets/tweets';
+import Stamps from './components/stamps/stamps';
 
-var ROUTES = {signin: Signin, signup: Signup, tweets: Tweets}
+var ROUTES = {signin: Signin, signup: Signup, tweets: Tweets, stamps: Stamps}
 
 
 export default class Main extends React.Component{

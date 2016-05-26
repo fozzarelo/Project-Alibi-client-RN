@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, TextInput, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-native';
 import Button from '../common/button';
+import genStyles from '../common/styles';
 
 export default class Signin extends React.Component {
   constructor(props) {
@@ -8,7 +9,8 @@ export default class Signin extends React.Component {
     this.state = {
       username: '',
       password: '',
-      errorMessage: null
+      errorMessage: '',
+      fade: new Animated.Value(1), // init opacity
     };
   }
 
@@ -33,7 +35,9 @@ export default class Signin extends React.Component {
             this.props.navigator.immediatelyResetRouteStack([{name: 'tweets'}]);
            });
         } else {
-          this.setState({errorMessage: 'Invalid login parameters'})
+          this.setState({errorMessage: 'Wrong credentials, try again?'})
+           this.state.fade._value = 1
+           Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         }
       });
   }
@@ -45,45 +49,24 @@ export default class Signin extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={genStyles.container}>
         <Text>Sign In</Text>
-        <Text style={styles.label}>Username:</Text>
-        <TextInput style={styles.input}
+        <Text style={genStyles.label}>Username:</Text>
+        <TextInput style={genStyles.textInput}
           value={this.state.username}
           onChangeText={(text) => this.setState({username: text})}
           />
-        <Text style={styles.label}>Password:</Text>
+        <Text style={genStyles.label}>Password:</Text>
         <TextInput
           secureTextEntry={true}
-          style={styles.input}
+          style={genStyles.textInput}
           value={this.state.password}
           onChangeText={(text) => this.setState({password: text})}
           />
-        <Text style={styles.label} hidden={!this.state.errorMessage}>{this.state.errorMessage}</Text>
+        <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]} hidden={!this.state.errorMessage}>{this.state.errorMessage}</Animated.Text>
         <Button text={'Sign In'} onPress={this.handleSignInButtonPress.bind(this)}/>
-        <Button text={'I need an account...'} onPress={this.handleSignUpButtonPress.bind(this)}/>
+        <Button text={'Sign Up'} onPress={this.handleSignUpButtonPress.bind(this)}/>
       </View>
     );
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    padding: 4,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    width: 200,
-    alignSelf: 'center'
-  },
-  label: {
-    fontSize: 18
-  }
-});

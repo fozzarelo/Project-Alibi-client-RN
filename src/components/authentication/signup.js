@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, TextInput, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-native';
 import Button from '../common/button';
+import genStyles from '../common/styles';
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ export default class Signup extends React.Component {
       password: '',
       passwordConfirmation: '',
       errorMessage: '',
+      fade: new Animated.Value(1), // init opacity
     };
   }
 
@@ -19,8 +21,11 @@ export default class Signup extends React.Component {
 
   handleSignUpPress() {
     this.setState({errorMessage: ''});
+    this.state.fade._value = 1
     if (!this.state.username || !this.state.password || this.state.password !== this.state.passwordConfirmation) {
-      return;
+      this.setState({errorMessage: 'Password mismatch'});
+      Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
+      return this.state.errorMessage;
     }
 
     let url = `http://localhost:3000/api/v1/users/signup?token=12345&username=${this.state.username}&password=${this.state.password}`
@@ -37,6 +42,7 @@ export default class Signup extends React.Component {
       .then((json) => {
         if (json.error) {
           this.setState({errorMessage: json.error});
+          Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         } else {
           console.log(json);
           // Store the logged in username
@@ -52,59 +58,33 @@ export default class Signup extends React.Component {
       })
   }
 
-  renderPasswordMatchError() {
-    return this.state.password == this.state.passwordConfirmation ? null : (<Text style={styles.label}>Your passwords do not match</Text>)
-  }
-
   render() {
     return (
-      <View style={styles.container}>
+      <View style={genStyles.container}>
         <Text>Sign Up</Text>
-        <Text style={styles.label}>Username:</Text>
+        <Text style={genStyles.label}>Username:</Text>
         <TextInput
           value={this.state.username}
           onChangeText={(text) => this.setState({username: text})}
-          style={styles.input} />
-        <Text style={styles.label}>Password:</Text>
+          style={genStyles.textInput} />
+        <Text style={genStyles.label}>Password:</Text>
         <TextInput
           value={this.state.password}
           secureTextEntry={true}
           onChangeText={(text) => this.setState({password: text})}
-          style={styles.input} />
-        <Text style={styles.label}>Confirm Password:</Text>
+          style={genStyles.textInput} />
+        <Text style={genStyles.label}>Confirm Password:</Text>
         <TextInput
           value={this.state.passwordConfirmation}
           secureTextEntry={true}
           onChangeText={(text) => this.setState({passwordConfirmation: text})}
-          style={styles.input} />
-
-        {this.renderPasswordMatchError()}
-        <Text style={styles.label}>{this.state.errorMessage}</Text>
+          style={genStyles.textInput} />
+        <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]}>
+          {this.state.errorMessage}
+        </Animated.Text>
         <Button text={'Signup'} onPress={this.handleSignUpPress.bind(this)} />
-        <Button text={'I have an account...'} onPress={this.handleSignInPress.bind(this)} />
+        <Button text={'Back'} onPress={this.handleSignInPress.bind(this)} />
       </View>
     );
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-  label: {
-    fontSize: 18
-  },
-  input: {
-    padding: 4,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    width: 200,
-    alignSelf: 'center'
-  }
-});
