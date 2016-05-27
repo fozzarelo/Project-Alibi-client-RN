@@ -7,7 +7,7 @@ export default class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
       errorMessage: '',
       fade: new Animated.Value(1), // init opacity
@@ -15,7 +15,7 @@ export default class Signin extends React.Component {
   }
 
   handleSignInButtonPress() {
-    let url = `http://localhost:3000/api/v1/users/signin?token=12345&username=${this.state.username}&password=${this.state.password}`
+    let url = `http://localhost:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({
@@ -30,7 +30,7 @@ export default class Signin extends React.Component {
         if (user) {
           this.setState({errorMessage: null})
           console.log("Successfully logged in");
-          AsyncStorage.setItem('username', user.username)
+          AsyncStorage.setItem('email', user.email)
            .then(() => {
             this.props.navigator.immediatelyResetRouteStack([{name: 'tweets'}]);
            });
@@ -51,10 +51,10 @@ export default class Signin extends React.Component {
     return (
       <View style={genStyles.container}>
         <Text>Sign In</Text>
-        <Text style={genStyles.label}>Username:</Text>
+        <Text style={genStyles.label}>Email:</Text>
         <TextInput style={genStyles.textInput}
-          value={this.state.username}
-          onChangeText={(text) => this.setState({username: text})}
+          value={this.state.email}
+          onChangeText={(text) => this.setState({email: text})}
           />
         <Text style={genStyles.label}>Password:</Text>
         <TextInput

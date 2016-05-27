@@ -10,6 +10,7 @@ export default class Signup extends React.Component {
       username: '',
       password: '',
       passwordConfirmation: '',
+      email: '',
       errorMessage: '',
       fade: new Animated.Value(1), // init opacity
     };
@@ -23,12 +24,12 @@ export default class Signup extends React.Component {
     this.setState({errorMessage: ''});
     this.state.fade._value = 1
     if (!this.state.username || !this.state.password || this.state.password !== this.state.passwordConfirmation) {
-      this.setState({errorMessage: 'Password mismatch'});
+      this.setState({errorMessage: 'Try again..'});
       Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
       return this.state.errorMessage;
     }
 
-    let url = `http://localhost:3000/api/v1/users/signup?token=12345&username=${this.state.username}&password=${this.state.password}`
+    let url = `http://localhost:3000/api/v1/users/signup?token=12&username=${this.state.username}&password=${this.state.password}&email=${this.state.email}`
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({
@@ -66,6 +67,11 @@ export default class Signup extends React.Component {
         <TextInput
           value={this.state.username}
           onChangeText={(text) => this.setState({username: text})}
+          style={genStyles.textInput} />
+        <Text style={genStyles.label}>Email:</Text>
+        <TextInput
+          value={this.state.email}
+          onChangeText={(text) => this.setState({email: text})}
           style={genStyles.textInput} />
         <Text style={genStyles.label}>Password:</Text>
         <TextInput
