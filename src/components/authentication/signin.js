@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-native';
 import Button from '../common/button';
+import Header from '../common/header';
 import genStyles from '../common/styles';
 
 export default class Signin extends React.Component {
@@ -13,14 +14,12 @@ export default class Signin extends React.Component {
       fade: new Animated.Value(1), // init opacity
     };
   }
-
-  handleSignInButtonPress() {
-    let url = `http://localhost:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`
+  // TODO these urls are going to have to change to an ngrok address during development, and them, hoefully to a heroku address if we deploy.. same goes for every fetch that we do.
+  SignInBP() {
+    let url = `http://192.168.0.15:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`
     let request = new Request(url, {
       method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'text/plain'
-      }),
+      headers: new Headers({'Content-Type': 'text/plain'})
     });
     fetch(request)
       .then((response) => {
@@ -29,20 +28,28 @@ export default class Signin extends React.Component {
       .then((user) => {
         if (user) {
           this.setState({errorMessage: null})
-          console.log("Successfully logged in");
+          console.log("Successfully logged in")
+          console.log(user.username)
+          console.log(user.email)
+          // Store in devise
           AsyncStorage.setItem('email', user.email)
-           .then(() => {
-            this.props.navigator.immediatelyResetRouteStack([{name: 'tweets'}]);
+          AsyncStorage.setItem('username', user.username)
+          .then(() => {
+            this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
            });
         } else {
+          console.log(this);
           this.setState({errorMessage: 'Wrong credentials, try again?'})
-           this.state.fade._value = 1
+           this.state.fade._value = 1;
            Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         }
-      });
+      })
+      .catch(() => {
+        this.setState({errorMessage: 'Connection error'});
+      })
   }
 
-  handleSignUpButtonPress() {
+  SignUpBP() {
     // Navigate to signup
     this.props.navigator.push({name: 'signup'});
   }
@@ -50,7 +57,7 @@ export default class Signin extends React.Component {
   render() {
     return (
       <View style={genStyles.container}>
-        <Text>Sign In</Text>
+        <Text style={genStyles.headerText}>Sign In</Text>
         <Text style={genStyles.label}>Email:</Text>
         <TextInput style={genStyles.textInput}
           value={this.state.email}
@@ -64,8 +71,10 @@ export default class Signin extends React.Component {
           onChangeText={(text) => this.setState({password: text})}
           />
         <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]} hidden={!this.state.errorMessage}>{this.state.errorMessage}</Animated.Text>
-        <Button text={'Sign In'} onPress={this.handleSignInButtonPress.bind(this)}/>
-        <Button text={'Sign Up'} onPress={this.handleSignUpButtonPress.bind(this)}/>
+        <Button text={'Sign In'} onPress={this.SignInBP.bind(this)}/>
+        <View style={{marginBottom:100}}>
+          <Button text={'Sign Up'} onPress={this.SignUpBP.bind(this)}/>
+        </View>
       </View>
     );
   }

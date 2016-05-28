@@ -26,7 +26,7 @@ var styles = StyleSheet.create({
     borderRadius: 10,
     width: 150,
     height: 45,
-    marginTop: 18
+    marginTop: 16
   },
   buttonText: {
     color: '#fff',

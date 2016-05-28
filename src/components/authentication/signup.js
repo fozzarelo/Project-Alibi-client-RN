@@ -29,7 +29,7 @@ export default class Signup extends React.Component {
       return this.state.errorMessage;
     }
 
-    let url = `http://localhost:3000/api/v1/users/signup?token=12&username=${this.state.username}&password=${this.state.password}&email=${this.state.email}`
+    let url = `http://192.168.0.15:3000/api/v1/users/signup?token=12&username=${this.state.username}&password=${this.state.password}&email=${this.state.email}`
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({
@@ -45,24 +45,25 @@ export default class Signup extends React.Component {
           this.setState({errorMessage: json.error});
           Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         } else {
-          console.log(json);
-          // Store the logged in username
+          console.log(json)
+          // Store in devise
           AsyncStorage.setItem('username', json.username)
+          AsyncStorage.setItem('username', user.username)
             .then(() => {
               // Reset our navigator route stack because we're no longer in the authentication flow
-              this.props.navigator.immediatelyResetRouteStack([{name: 'tweets'}]);
-            });
+              this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
+            })
         }
       })
       .catch((error) => {
-        console.log(`Error: ${error}`);
+        this.setState({errorMessage: error});
       })
   }
 
   render() {
     return (
       <View style={genStyles.container}>
-        <Text>Sign Up</Text>
+        <Text style={genStyles.headerText}>Sign Up</Text>
         <Text style={genStyles.label}>Username:</Text>
         <TextInput
           value={this.state.username}
@@ -89,7 +90,9 @@ export default class Signup extends React.Component {
           {this.state.errorMessage}
         </Animated.Text>
         <Button text={'Signup'} onPress={this.handleSignUpPress.bind(this)} />
-        <Button text={'Back'} onPress={this.handleSignInPress.bind(this)} />
+        <View style={{marginBottom: 40}}>
+          <Button text={'Back'} onPress={this.handleSignInPress.bind(this)} />
+        </View>
       </View>
     );
   }
