@@ -5,9 +5,12 @@ import Signin from './components/authentication/signin';
 import Signup from './components/authentication/signup';
 import Tweets from './components/tweets/tweets';
 import Send from './components/stamps/send';
+import Stamps from './components/stamps/stamps';
+import Drop from './components/common/dropDown';
 
 var ROUTES = {signin: Signin,   signup: Signup,
-              tweets: Tweets,   send: Send}
+              tweets: Tweets,   send: Send,
+              stamps: Stamps, dropDown: Drop}
 
 
 export default class Main extends React.Component{
@@ -17,8 +20,12 @@ export default class Main extends React.Component{
   }
   componentWillMount() {
     AsyncStorage.getItem('email')
-      .then( () => {this.setState({iniRoute: 'send'});
-      });
+      .then( () => {
+        this.setState({iniRoute: 'send'});
+      })
+      .catch( () => {
+        this.setState({iniRoute: 'signin'});
+      })
   }
 
   renderScene(route, navigator) {

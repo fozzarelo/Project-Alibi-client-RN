@@ -29,7 +29,7 @@ export default class Signup extends React.Component {
       return this.state.errorMessage;
     }
 
-    let url = `http://192.168.0.15:3000/api/v1/users/signup?token=12&username=${this.state.username}&password=${this.state.password}&email=${this.state.email}`
+    let url = `http://192.168.0.15:3000/api/v1/users/signin$?token=12&email=${this.state.email}&password=${this.state.password}&email=${this.state.email}`
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({

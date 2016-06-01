@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-n
 import Button from '../common/button';
 import Header from '../common/header';
 import genStyles from '../common/styles';
+import Cons from '../helpers/constants';
 
 export default class Signin extends React.Component {
   constructor(props) {
@@ -14,9 +15,11 @@ export default class Signin extends React.Component {
       fade: new Animated.Value(1), // init opacity
     };
   }
-  // TODO these urls are going to have to change to an ngrok address during development, and them, hoefully to a heroku address if we deploy.. same goes for every fetch that we do.
+
   SignInBP() {
+    console.log("Aqui!!!", Cons.token);
     let url = `http://192.168.0.15:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`
+    console.log("Aqui!!!", url);
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -31,9 +34,11 @@ export default class Signin extends React.Component {
           console.log("Successfully logged in")
           console.log(user.username)
           console.log(user.email)
+          console.log('--------------->>>', user)
           // Store in devise
           AsyncStorage.setItem('email', user.email)
           AsyncStorage.setItem('username', user.username)
+          // AsyncStorage.setItem('contacts', user.contacts)
           .then(() => {
             this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
            });
