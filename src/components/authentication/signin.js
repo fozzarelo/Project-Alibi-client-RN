@@ -17,7 +17,6 @@ export default class Signin extends React.Component {
   }
 
   SignInBP() {
-    console.log("Aqui!!!", Cons.token);
     let url = `http://192.168.0.15:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`
     console.log("Aqui!!!", url);
     let request = new Request(url, {
@@ -32,16 +31,14 @@ export default class Signin extends React.Component {
         if (user) {
           this.setState({errorMessage: null})
           console.log("Successfully logged in")
-          console.log(user.username)
-          console.log(user.email)
-          console.log('--------------->>>', user)
+          console.log('--------------->>>\n\n', user);
           // Store in devise
           AsyncStorage.setItem('email', user.email)
           AsyncStorage.setItem('username', user.username)
-          // AsyncStorage.setItem('contacts', user.contacts)
+          AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
           .then(() => {
             this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
-           });
+          });
         } else {
           console.log(this);
           this.setState({errorMessage: 'Wrong credentials, try again?'})
@@ -56,7 +53,12 @@ export default class Signin extends React.Component {
 
   SignUpBP() {
     // Navigate to signup
-    this.props.navigator.push({name: 'signup'});
+    this.props.navigator.push({
+      name: 'signup',
+      passProps: {
+        isSignUp: true
+      }
+    });
   }
 
   render() {

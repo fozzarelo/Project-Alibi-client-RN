@@ -7,10 +7,12 @@ import Tweets from './components/tweets/tweets';
 import Send from './components/stamps/send';
 import Stamps from './components/stamps/stamps';
 import Drop from './components/common/dropDown';
+import AddUser from './components/stamps/addUser';
 
 var ROUTES = {signin: Signin,   signup: Signup,
               tweets: Tweets,   send: Send,
-              stamps: Stamps, dropDown: Drop}
+              stamps: Stamps, dropDown: Drop,
+              addUser: AddUser}
 
 
 export default class Main extends React.Component{
@@ -30,7 +32,7 @@ export default class Main extends React.Component{
 
   renderScene(route, navigator) {
     let Component = ROUTES[route.name];
-    return <Component route={route} navigator={navigator}/>;
+    return <Component route={route} navigator={navigator} {...route.passProps} />;
   }
 
 // TODO regresa aqui para arreglar el initial route!
