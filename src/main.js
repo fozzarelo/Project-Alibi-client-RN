@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import {StyleSheet, Navigator, AsyncStorage} from 'react-native';
 
 import Signin from './components/authentication/signin';
-import Signup from './components/authentication/signup';
 import Tweets from './components/tweets/tweets';
 import Send from './components/stamps/send';
 import Stamps from './components/stamps/stamps';
 import Drop from './components/common/dropDown';
-import AddUser from './components/stamps/addUser';
+import AddUser from './components/common/addUser';
 
-var ROUTES = {signin: Signin,   signup: Signup,
-              tweets: Tweets,   send: Send,
-              stamps: Stamps, dropDown: Drop,
-              addUser: AddUser}
+var ROUTES = {signin: Signin,   addUser:  AddUser,
+              tweets: Tweets,   send:     Send,
+              stamps: Stamps,   dropDown: Drop}
 
 
 export default class Main extends React.Component{

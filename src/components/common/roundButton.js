@@ -23,14 +23,14 @@ var styles = StyleSheet.create({
       borderColor: 'transparent',
       borderWidth:2,
       alignSelf: 'center',
-    borderRadius: 10,
-    width: 100,
-    height: 45,
+    borderRadius: 30,
+    width: 60,
+    height: 60,
     marginTop: 16
   },
   buttonText: {
-    color: '#fff',
+    color: 'purple',
     alignSelf: 'center',
-    fontSize: 14
+    fontSize: 18
   }
 });

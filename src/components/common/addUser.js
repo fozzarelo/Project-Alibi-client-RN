@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-native';
-import Button from '../common/button';
-import genStyles from '../common/styles';
+import Button from './button';
+import genStyles from './styles';
 
 const uri = "http://192.168.0.15:3000/api/v1/users";
 
-export default class Signup extends Component {
+export default class AddUser extends Component {
   constructor(props) {
     super(props);
 
@@ -34,12 +34,13 @@ export default class Signup extends Component {
   }
 
   handleSignUpPress() {
+    // Restart Error and animation
     this.setState({errorMessage: ''});
+    this.state.fade.setValue(1);
+    // Values for the url
     const username = this.state.username;
     const password = this.state.password;
     const inputEmail = this.state.email;
-
-    this.state.fade._value = 1
 
     if(this.props.isSignUp) {
       if (!this.state.username || !this.state.password || this.state.password !== this.state.passwordConfirmation) {
@@ -47,18 +48,19 @@ export default class Signup extends Component {
         Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         return this.state.errorMessage;
       }
-    }
-    console.log("@@@@@@@@@@@@@@@@@@@",username, password, inputEmail)
-    if (this.props.isSignUp) {
       let url = `${uri}/signup?token=12&username=${username}&password=${password}&email=${inputEmail}`;
       this.request(url);
     } else {
+      if (!this.state.username || !this.state.email) {
+        this.setState({errorMessage: 'Try again..'});
+        Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
+        return this.state.errorMessage;
+      }
       AsyncStorage.getItem('email')
         .then(userEmail => {
           let url = `${uri}/addContact?token=12&contactNickname=${username}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
           console.log(url)
           this.request(url);
-          //function
         });
     }
   }
@@ -73,21 +75,20 @@ export default class Signup extends Component {
 
     fetch(request)
       .then((response) => {
-        console.log("response ===========", response._bodyInit);
+        //console.log("response ===========", response._bodyInit);
         return response.json();
       })
       .then((user) => {
-
-        console.log("user +++++++++++++", user)
-
+        console.log("user =========",user)
         if (user.error.length > 0) {
           this.setState({errorMessage: user.error});
           Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         } else {
-          console.log("user =========",user)
           // Store in devise
-          AsyncStorage.setItem('email', user.email)
-          AsyncStorage.setItem('username', user.username)
+          if (this.props.isSignUp){
+            AsyncStorage.setItem('email', user.email)
+            AsyncStorage.setItem('username', user.username)
+          }
           AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
             .then(() => {
               // Reset our navigator route stack because we're no longer in the authentication flow
@@ -96,7 +97,8 @@ export default class Signup extends Component {
         }
       })
       .catch((error) => {
-        this.setState({errorMessage: error});
+        this.setState({errorMessage: "Connection error"});
+        Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
       })
 
   }
