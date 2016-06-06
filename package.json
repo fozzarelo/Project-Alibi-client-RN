@@ -8,7 +8,9 @@
   "dependencies": {
     "react": "^15.0.2",
     "react-native": "^0.26.1",
+    "react-native-aws3": "0.0.1",
     "react-native-camera": "^0.3.8",
-    "react-native-dropdown": "0.0.6"
+    "react-native-dropdown": "0.0.6",
+    "react-native-vector-icons": "^2.0.3"
   }
 }

@@ -11,7 +11,7 @@ export default class Send extends React.Component {
       username: '',
       email: '',
       picTemp: undefined,
-      targetEmail: '',
+      // targetEmail: '',
       textEmail:'',
       valuesForPicker: {},
       position: '',
@@ -96,9 +96,13 @@ export default class Send extends React.Component {
 
   sendBP() {
     var address = this.state.position
-    var targetEmail = this.state.targetEmail
+    var targetEmail = this.state.textEmail
     var userEmail = this.state.email
-
+    if (!targetEmail) {
+      this.setState({errorMessage: 'No email'});
+      console.log('-----------Rejected cause no email------------')
+      return
+    }
     let url = `http://192.168.0.15:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}`;
     console.log("HERE GOES NOTHING!!!!", url);
     let request = new Request(url, {
@@ -115,8 +119,9 @@ export default class Send extends React.Component {
           Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         }
         else {
+
           console.log("message is being sent!")
-          // console.log('--------------->>>', message.timeStamp);
+          console.log('--------------->>>', message.timeSent);
         }
       })
       .catch(() => {
@@ -130,7 +135,7 @@ export default class Send extends React.Component {
   addPictureBP() {
     // Send message
     console.log('go to picture')
-    this.props.navigator.push({name: 'stamps'});
+    this.props.navigator.push({name: 'cam'});
   }
 
   addUserBP() {
