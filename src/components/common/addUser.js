@@ -117,18 +117,22 @@ export default class AddUser extends Component {
     if(this.props.isSignUp) {
       return (
         <View style={genStyles.container}>
-          <Text style={genStyles.label}>Password:</Text>
-          <TextInput
-            value={this.state.password}
-            secureTextEntry={true}
-            onChangeText={(text) => this.setState({password: text})}
-            style={genStyles.textInput} />
-          <Text style={genStyles.label}>Confirm Password:</Text>
-          <TextInput
-            value={this.state.passwordConfirmation}
-            secureTextEntry={true}
-            onChangeText={(text) => this.setState({passwordConfirmation: text})}
-            style={genStyles.textInput} />
+          <Text style={genStyles.label}>
+            Password:
+          </Text>
+          <TextInput  value={this.state.password}
+                      secureTextEntry={true}
+                      onChangeText={(text) => this.setState({password: text})}
+                      style={genStyles.textInput}
+          />
+          <Text style={genStyles.label}>
+            Confirm Password:
+          </Text>
+          <TextInput  value={this.state.passwordConfirmation}
+                      secureTextEntry={true}
+                      onChangeText={(text) => this.setState({passwordConfirmation: text})}
+                      style={genStyles.textInput}
+          />
         </View>);
     }
   }
@@ -145,15 +149,16 @@ export default class AddUser extends Component {
       <View style={genStyles.container}>
         {this.renderTitle.bind(this)()}
         {this.renderName.bind(this)()}
-        <TextInput
-          value={this.state.username}
-          onChangeText={(text) => this.setState({username: text})}
-          style={genStyles.textInput} />
+        <TextInput  value={this.state.username}
+                    onChangeText={(text) => this.setState({username: text})}
+                    style={genStyles.textInput}
+        />
         <Text style={genStyles.label}>Email:</Text>
-        <TextInput
-          value={this.state.email}
-          onChangeText={(text) => this.setState({email: text})}
-          style={genStyles.textInput} />
+        <TextInput  autoCapitalize='none'
+                    value={this.state.email}
+                    onChangeText={(text) => this.setState({email: text})}
+                    style={genStyles.textInput}
+        />
         {this.renderPassword.bind(this)()}
         <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]}>
           {this.state.errorMessage}

@@ -43,9 +43,9 @@ export default class Signin extends React.Component {
           AsyncStorage.setItem('email', user.email)
           AsyncStorage.setItem('username', user.username)
           AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
-          .then(() => {
-            this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
-          })
+            .then(() => {
+              this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
+            })
         }
       })
       .catch(() => {
@@ -69,17 +69,17 @@ export default class Signin extends React.Component {
       <View style={genStyles.container}>
         <Text style={genStyles.headerText}>Sign In</Text>
         <Text style={genStyles.label}>Email:</Text>
-        <TextInput style={genStyles.textInput}
-          value={this.state.email}
-          onChangeText={(text) => this.setState({email: text})}
-          />
+        <TextInput  autoCapitalize='none'
+                    style={genStyles.textInput}
+                    value={this.state.email}
+                    onChangeText={(text) => this.setState({email: text})}
+        />
         <Text style={genStyles.label}>Password:</Text>
-        <TextInput
-          secureTextEntry={true}
-          style={genStyles.textInput}
-          value={this.state.password}
-          onChangeText={(text) => this.setState({password: text})}
-          />
+        <TextInput  secureTextEntry={true}
+                    style={genStyles.textInput}
+                    value={this.state.password}
+                    onChangeText={(text) => this.setState({password: text})}
+        />
         <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]}>
           {this.state.errorMessage}
         </Animated.Text>

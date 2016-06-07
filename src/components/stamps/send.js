@@ -10,12 +10,14 @@ export default class Send extends React.Component {
     this.state = {
       username: '',
       email: '',
-      picTemp: undefined,
+      photoLink: undefined,
       // targetEmail: '',
       textEmail:'',
       valuesForPicker: {},
       position: '',
       errorMessage: '',
+      lat: '',
+      lon: '',
       fade: new Animated.Value(1), // init opacity
     };
   }
@@ -31,18 +33,9 @@ export default class Send extends React.Component {
       .then(contacts => {
         this.setState({valuesForPicker: JSON.parse(contacts)})
       });
-    // TODO: need to make sure that this get executed when a pic is taken and we pop the pic view
-    // TODO also, we still havent found a way to display the view.. maby we don't need to, we'll just focus on sending it.
-    // AsyncStorage.getItem('picTemp')
-    //   .then( pic => {
-    //     if(pic) {
-    //       // console.log("picTemp--------------", pic);
-    //       this.setState({picTemp: pic});
-    //     }
-    //   });
-    this.getLocation.bind(this)();
+    this.getLocation.bind(this)()
+    AsyncStorage.setItem('photoLink', '')
   }
-
 
   getLocation(args, callback){
     navigator.geolocation.getCurrentPosition(
@@ -50,7 +43,9 @@ export default class Send extends React.Component {
       //  console.log("position b4 stringify---->", position)
         var latitude = position.coords.latitude;
         var longitude = position.coords.longitude;
-        var position = JSON.stringify(position);
+        this.setState({lat: latitude, lon: longitude})
+
+        // var position = JSON.stringify(position);
         // console.log("var position after stringify---->", latitude)
         // this.setState({position: `${latitude} ${longitude}`});
         var coords = `${latitude} ${longitude}`
@@ -94,17 +89,30 @@ export default class Send extends React.Component {
   // console.log("location-------------->", latitude, longitude )
   }
 
-  sendBP() {
+  sendBP(){
+    AsyncStorage.getItem('photoLink')
+      .then( link => {
+          console.log("photoLink--------------", link);
+          this.setState({photoLink: link});
+          this.sendMessage.bind(this)()
+      })
+  }
+
+  sendMessage() {
     var address = this.state.position
     var targetEmail = this.state.textEmail
     var userEmail = this.state.email
+    var photoLink = this.state.photoLink
+    var lat = this.state.lat
+    var lon = this.state.lon
+
     if (!targetEmail) {
       this.setState({errorMessage: 'No email'});
       console.log('-----------Rejected cause no email------------')
       return
     }
-    let url = `http://192.168.0.15:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}`;
-    console.log("HERE GOES NOTHING!!!!", url);
+    let url = `http://192.168.0.15:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
+    console.log("Sending message request to server-------->>", url);
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -119,17 +127,14 @@ export default class Send extends React.Component {
           Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
         }
         else {
-
-          console.log("message is being sent!")
-          console.log('--------------->>>', message.timeSent);
+          console.log('message is being sent at:>>>', message.timeSent);
         }
       })
       .catch(() => {
-        console.log('----------------message fetch failed--------------');
+        console.log('message fetch failed');
         this.setState({errorMessage: 'Connection error'});
         Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
       })
-  // console.log("location-------------->", latitude, longitude )
   }
 
   addPictureBP() {
@@ -139,7 +144,7 @@ export default class Send extends React.Component {
   }
 
   addUserBP() {
-      // Navigate to signup
+      // Navigate to addUser
       this.props.navigator.push({
         name: 'addUser',
         passProps: {isSignUp: false}
@@ -161,20 +166,31 @@ export default class Send extends React.Component {
       <View style={genStyles.container}>
         <Text style={genStyles.headerText}>Hi {this.state.username}, checking in?</Text>
         <View>
-          <DropDown contacts={this.state.valuesForPicker} onValueChange={this.onValueChange.bind(this)} />
-          <TextInput style={genStyles.textInput}
-            value={this.state.textEmail}
-            onChangeText={(text) => this.setState({textEmail: text})}
-            />
+          <DropDown contacts={this.state.valuesForPicker}
+                    onValueChange={this.onValueChange.bind(this)}
+          />
+          <TextInput  autoCapitalize='none'
+                      style={genStyles.textInput}
+                      value={this.state.textEmail}
+                      onChangeText={(text) => this.setState({textEmail: text})}
+          />
           <Text> U-R-@:{this.state.position} </Text>
         </View>
         <View style={{flexDirection:'row'}}>
-          <Button text={'Add picture'} onPress={this.addPictureBP.bind(this)}/>
-          <Button text={'SendBP'} onPress={this.sendBP.bind(this)}/>
+          <Button text={'Add picture'}
+                  onPress={this.addPictureBP.bind(this)}
+          />
+          <Button text={'SendBP'}
+                  onPress={this.sendBP.bind(this)}
+          />
         </View>
         <View style={{marginBottom:40, flexDirection:'row'}}>
-          <Button text="+" onPress={this.addUserBP.bind(this)}/>
-          <Button text="Reload location" onPress={this.getLocation.bind(this)}/>
+          <Button text="+"
+                  onPress={this.addUserBP.bind(this)}
+          />
+          <Button text="Reload location"
+                  onPress={this.getLocation.bind(this)}
+          />
         </View>
       </View>
     );
