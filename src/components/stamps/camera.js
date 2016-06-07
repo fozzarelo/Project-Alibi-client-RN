@@ -47,8 +47,11 @@ export default class Cam extends React.Component {
         keyPrefix: '',
         bucket: 'foot-print-pictures',
         region: 'us-west-2',
-        accessKey: 'AKIAIR5T4VRUI5S4BH4A',
-        secretKey: 'Z+lkq639wEwtdEjhTlrw02FLLALMfhedkIBCj9VH',
+        // accessKey: 'Add your key here',
+        // secretKey: 'Add you key here',
+        // TODO remember not to commit your aws credentials!
+        accessKey: 'AKIAIZDNBWBTII3SNIVQ',
+        secretKey: '8ctM1/ofYC6KF+eOf9luEz/41LrZKOFc08GVYGXL',
         successActionStatus: 201
       };
 
@@ -63,6 +66,17 @@ export default class Cam extends React.Component {
     }
   }
 
+  _renderButton(iconName, action){
+    return(
+      <Button name={iconName}
+              size={60}
+              backgroundColor="transparent"
+              style={{ justifyContent: 'center' }}
+              onPress={action}
+      />
+    )
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -73,25 +87,11 @@ export default class Cam extends React.Component {
                 aspect={Camera.constants.Aspect.fill}
                 captureAudio={false}
         />
+
         <View style={styles.buttonContainer}>
-          <Button name="ios-phone-portrait"
-                  size={60}
-                  backgroundColor="transparent"
-                  style={{ justifyContent: 'center' }}
-                  onPress={this.switchCamera.bind(this)}
-          />
-          <Button name="ios-camera-outline"
-                  size={60}
-                  backgroundColor="transparent"
-                  style={{ justifyContent: 'center' }}
-                  onPress={this.takePicture.bind(this)}
-          />
-          <Button name="ios-checkmark-outline"
-                  size={60}
-                  backgroundColor="transparent"
-                  style={{ justifyContent: 'center' }}
-                  onPress={this.goBack.bind(this)}
-          />
+          {this._renderButton('ios-phone-portrait', this.switchCamera.bind(this))}
+          {this._renderButton('ios-camera-outline', this.takePicture.bind(this))}
+          {this._renderButton('ios-checkmark-outline', this.goBack.bind(this))}
         </View>
       </View>
     );

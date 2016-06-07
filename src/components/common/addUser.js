@@ -103,17 +103,17 @@ export default class AddUser extends Component {
 
   }
 
-  renderTitle(){
+  _renderTitle(){
     let title = this.props.isSignUp ? "Sign Up" : "New contact";
     return <Text style={genStyles.headerText}>{title}</Text>;
   }
 
-  renderName(){
+  _renderName(){
     let label = this.props.isSignUp ? "Username" : "Nickname";
     return <Text style={genStyles.label}>{label}</Text>;
   }
 
-  renderPassword() {
+  _renderPassword() {
     if(this.props.isSignUp) {
       return (
         <View style={genStyles.container}>
@@ -137,7 +137,7 @@ export default class AddUser extends Component {
     }
   }
 
-  renderActionButton() {
+  _renderActionButton() {
     let label = this.props.isSignUp ? "Sign Up" : "Add";
     return <Button text={label} onPress={this.handleSignUpPress.bind(this)} />
   }
@@ -147,8 +147,8 @@ export default class AddUser extends Component {
   render() {
     return (
       <View style={genStyles.container}>
-        {this.renderTitle.bind(this)()}
-        {this.renderName.bind(this)()}
+        {this._renderTitle.bind(this)()}
+        {this._renderName.bind(this)()}
         <TextInput  value={this.state.username}
                     onChangeText={(text) => this.setState({username: text})}
                     style={genStyles.textInput}
@@ -159,11 +159,11 @@ export default class AddUser extends Component {
                     onChangeText={(text) => this.setState({email: text})}
                     style={genStyles.textInput}
         />
-        {this.renderPassword.bind(this)()}
+        {this._renderPassword.bind(this)()}
         <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]}>
           {this.state.errorMessage}
         </Animated.Text>
-        {this.renderActionButton.bind(this)()}
+        {this._renderActionButton.bind(this)()}
         <View style={{marginBottom: 40}}>
           <Button text={'Back'} onPress={this.handleSignInPress.bind(this)} />
         </View>
