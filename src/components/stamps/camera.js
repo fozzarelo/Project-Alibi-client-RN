@@ -80,6 +80,7 @@ export default class Cam extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.buttonContainer}></View>
         <Camera ref={(cam) => {this.camera = cam;}}
                 captureTarget={this.state.cameraTarget}
                 type={this.state.cameraType}
@@ -88,7 +89,7 @@ export default class Cam extends React.Component {
                 captureAudio={false}
         />
 
-        <View style={styles.buttonContainer}>
+        <View style={genStyles.footer}>
           {this._renderButton('ios-phone-portrait', this.switchCamera.bind(this))}
           {this._renderButton('ios-camera-outline', this.takePicture.bind(this))}
           {this._renderButton('ios-checkmark-outline', this.goBack.bind(this))}
@@ -99,10 +100,6 @@ export default class Cam extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  buttonContainer: {
-    justifyContent: 'space-between',
-    flexDirection:'row'
-  },
   container: {
     flex: 1,
     justifyContent: 'center',

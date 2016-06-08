@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-native';
-import Button from '../common/button';
+import { Button } from 'react-native-vector-icons/Ionicons';
 import Header from '../common/header';
 import genStyles from '../common/styles';
 import Cons from '../helpers/constants';
@@ -15,13 +15,12 @@ export default class Signin extends React.Component {
       fade: new Animated.Value(1), // init opacity
     };
   }
-  // TODO haven't done anything with the error. next satep is to see if im getting anything in my server
+
   SignInBP() {
     this.setState({errorMessage: null});
     this.state.fade.setValue(1);
 
     let url = `http://192.168.0.15:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`;
-    // console.log("Aqui!!!", url);
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -33,13 +32,10 @@ export default class Signin extends React.Component {
       .then((user) => {
         if (user.error) {
           this.setState({errorMessage: user.error});
-          Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
+          Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {
-          // this.setState({errorMessage: '', fade: 1})
           console.log("Successfully logged in")
-          console.log('--------------->>>\n\n', user);
-          // Store in devise
           AsyncStorage.setItem('email', user.email)
           AsyncStorage.setItem('username', user.username)
           AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
@@ -50,7 +46,7 @@ export default class Signin extends React.Component {
       })
       .catch(() => {
         this.setState({errorMessage: 'Connection error'});
-        Animated.timing(this.state.fade, {toValue: 0, duration: 2000}).start();
+        Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       })
   }
 
@@ -62,6 +58,17 @@ export default class Signin extends React.Component {
         isSignUp: true
       }
     });
+  }
+
+  _renderButton(iconName, action){
+    return(
+      <Button name={iconName}
+              size={60}
+              backgroundColor="transparent"
+              style={{ justifyContent: 'center' }}
+              onPress={action}
+      />
+    )
   }
 
   render() {
@@ -80,12 +87,14 @@ export default class Signin extends React.Component {
                     value={this.state.password}
                     onChangeText={(text) => this.setState({password: text})}
         />
-        <Animated.Text style={[genStyles.redLabel, {opacity: this.state.fade}]}>
-          {this.state.errorMessage}
-        </Animated.Text>
-        <Button text={'Sign In'} onPress={this.SignInBP.bind(this)}/>
-        <View style={{marginBottom:100}}>
-          <Button text={'Sign Up'} onPress={this.SignUpBP.bind(this)}/>
+        <View style={{height:40}}>
+          <Animated.Text style={[genStyles.notification, {opacity: this.state.fade}]}>
+            {this.state.errorMessage}
+          </Animated.Text>
+        </View>
+        <View style={genStyles.footer}>
+          {this._renderButton.bind(this)('md-person', this.SignUpBP.bind(this))}
+          {this._renderButton.bind(this)('md-log-in', this.SignInBP.bind(this))}
         </View>
       </View>
     );

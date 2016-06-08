@@ -13,9 +13,7 @@ export default class DropDown extends React.Component {
         super(context,props);
         this.props.contacts = {};
         this.props.onValueChange = props.onValueChange;
-        this.state = {
-             selectedValue: 'email@domain.com',
-        };
+        this.state = {selectedValue: 'email@domain.com'};
     }
 
     pickerItems() {

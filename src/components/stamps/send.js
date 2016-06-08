@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, AsyncStorage, TextInput, Image, Animated, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, AsyncStorage, TextInput, Animated, Dimensions} from 'react-native';
 import genStyles from '../common/styles';
-// import Button from '../common/button';
 import DropDown from '../common/dropDown';
 import { Button } from 'react-native-vector-icons/Ionicons';
 
@@ -93,6 +92,7 @@ export default class Send extends React.Component {
     if (!targetEmail) {
       this.setState({notification: 'No email'});
       console.log('-------Failed client side validation--------')
+      Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return
     }
     let url = `http://192.168.0.15:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
@@ -112,7 +112,7 @@ export default class Send extends React.Component {
         }
         else {
           console.log('message is being sent at:>>>', message.timeSent);
-          this.setState({notification: `message sent at:${message.timeSent}`});
+          this.setState({notification: 'Message sent'});
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
       })
@@ -157,6 +157,10 @@ export default class Send extends React.Component {
       });
   }
 
+  messagesListBP(){
+    this.props.navigator.push({name: 'stampsList'})
+  }
+
   onValueChange(value, key) {
     this.setState({
         textEmail : value
@@ -181,32 +185,31 @@ export default class Send extends React.Component {
     }
 
     return (
-      <View style={styles.container}>
-        <View>
+      <View style={genStyles.container}>
+        <View style={{marginTop:20}}>
           <DropDown contacts={this.state.valuesForPicker}
                     onValueChange={this.onValueChange.bind(this)}
           />
           <View style={{flexDirection:'row'}}>
             <TextInput  autoCapitalize='none'
-                        style={styles.textInput}
+                        style={genStyles.textInput}
                         value={this.state.textEmail}
                         onChangeText={(text) => this.setState({textEmail: text})}
             />
             {this._renderIcon("md-person-add", 45, this.addUserBP.bind(this))}
           </View>
         </View>
-
         <View style={styles.rowView}>
           <View style={styles.textContainer}>
             <Text style={{textAlign:'center', alignSelf:'flex-end'}}> {this.state.position} </Text>
           </View>
-          {this._renderIcon("ios-pin", 45, this.getLocationBP.bind(this))}
+          {this._renderIcon("md-refresh", 45, this.getLocationBP.bind(this))}
         </View>
         <View style={{height:90, justifyContent:'center'}}>
-          <Animated.Text style={[styles.notification ,{opacity: this.state.fade}]}>{this.state.notification}</Animated.Text>
+          <Animated.Text style={[genStyles.notification ,{opacity: this.state.fade}]}>{this.state.notification}</Animated.Text>
         </View>
-        <View style={styles.footer}>
-          {this._renderIcon("ios-albums-outline", 60, this.addPictureBP.bind(this))}
+        <View style={genStyles.footer}>
+          {this._renderIcon("ios-albums-outline", 60, this.messagesListBP.bind(this))}
           {this._renderIcon("ios-camera-outline", 60, this.addPictureBP.bind(this))}
           {this._renderIcon("ios-paw-outline", 60, this.sendBP.bind(this))}
         </View>
@@ -219,15 +222,10 @@ var deviceHeight = Dimensions.get('window').height;
 var deviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: 'silver'
-  },
   rowView: {
     flexDirection:'row',
-    justifyContent:'space-between'
+    justifyContent:'space-between',
+    marginTop:20
   },
   textContainer: {
     flexDirection:'column',
@@ -235,32 +233,4 @@ const styles = StyleSheet.create({
     width:220,
     justifyContent:'center'
   },
-  notification: {
-    textAlign: 'center',
-    alignSelf: 'center',
-    fontSize: 20,
-    color: 'purple',
-  },
-  textInput: {
-    backgroundColor: 'transparent',
-    color: 'grey',
-    padding: 4,
-    height: 35,
-    borderColor: '#05A5D1',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    width: 220,
-    alignSelf: 'center'
-  },
-  footer: {
-    flexDirection:'row',
-    width: deviceWidth,
-    height: 80,
-    backgroundColor: 'black',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    alignSelf: 'flex-end',
-    marginTop:50
-  }
 });

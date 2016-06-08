@@ -14,7 +14,7 @@ var deviceWidth = Dimensions.get('window').width;
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'silver'
   },
@@ -32,68 +32,36 @@ module.exports = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  shadow: {
-    flex: 1,
-    width: null,
-    height: null,
-    backgroundColor: 'transparent'
-  },
-  shadow2: {
-    flex: 1,
-    width: null,
-    height: null,
-    backgroundColor: 'transparent',
-    marginTop: -35
-  },
-  color: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: primary
-  },
   textInput: {
     backgroundColor: 'transparent',
     color: 'grey',
     padding: 4,
-    height: 35,
-    borderColor: 'black',
+    height: 40,
+    borderColor: '#05A5D1',
     borderWidth: 1,
     borderRadius: 5,
-    margin: 5,
-    width: 200,
+    margin: 1,
+    width: 220,
     alignSelf: 'center'
   },
-  bg : {
-    flex: 1,
-    marginTop: deviceHeight/1.75,
-    backgroundColor: secondary,
-    paddingTop: 20,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 30,
-    bottom: 0
-  },
-  loginLogo: {
-    width: 100,
-  },
-  background: {
-        flex: 1,
-        resizeMode: 'stretch'
-    },
-  logo: {
-    marginBottom: 50,
-    marginTop: -20,
-    height: 150,
-    width: 150,
-    alignSelf: 'center'
-  },
-  label: {
-    fontSize: 18
+  notification: {
+    textAlign: 'center',
+    alignSelf: 'center',
+    fontSize: 24,
+    color: 'purple',
   },
   redLabel: {
     fontSize: 18,
     color: 'red'
+  },
+  footer: {
+    flexDirection:'row',
+    width: deviceWidth,
+    height: 80,
+    backgroundColor: 'black',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginTop:0
   }
 });
