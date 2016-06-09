@@ -51,7 +51,7 @@ export default class Send extends React.Component {
   }
 
   translateCoords(coords){
-    let url = `http://192.168.0.15:3000/api/v1/addresses/translateCoords?token=12&coords=${coords}`;
+    let url = `http://172.20.10.3:3000/api/v1/addresses/translateCoords?token=12&coords=${coords}`;
     console.log("Translate coords request:", url);
     let request = new Request(url, {
       method: 'POST',
@@ -63,20 +63,18 @@ export default class Send extends React.Component {
       })
       .then((address) => {
         if (address.error) {
-          this.setState({notification: 'address.error'});
+          this.setState({notification: 'translation error'});
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {
-          // Reset error
-          // this.setState({notification: '', fade: 1})
           console.log('Translated address:', address.streetAddress);
           this.setState({position: address.streetAddress, notification:'reloaded'})
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
       })
       .catch(() => {
-        console.log('Translation failed');
-        this.setState({notification: 'Translation failed'});
+        console.log('fetch error');
+        this.setState({notification: 'fetch error'});
         Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       })
   }
@@ -95,7 +93,7 @@ export default class Send extends React.Component {
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return
     }
-    let url = `http://192.168.0.15:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
+    let url = `http://172.20.10.3:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
     console.log("Sending message request to server-------->>", url);
     let request = new Request(url, {
       method: 'POST',
@@ -107,7 +105,7 @@ export default class Send extends React.Component {
       })
       .then((message) => {
         if (message.error) {
-          this.setState({notification: message.error});
+          this.setState({notification: 'message error'});
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {

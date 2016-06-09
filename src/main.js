@@ -40,7 +40,7 @@ export default class Main extends React.Component{
     return (
       <Navigator
         style={styles.container}
-        initialRoute={{name: 'send'}}
+        initialRoute={{name: 'signin'}}
         renderScene={this.renderScene}
         configureScene={() => { return Navigator.SceneConfigs.FloatFromRight; }}
         >

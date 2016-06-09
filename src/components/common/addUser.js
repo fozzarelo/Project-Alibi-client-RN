@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated, Dimensions} f
 import { Button } from 'react-native-vector-icons/Ionicons';
 import genStyles from './styles';
 
-const uri = "http://192.168.0.15:3000/api/v1/users";
+const uri = "http://172.20.10.3:3000/api/v1/users";
 
 export default class AddUser extends Component {
   constructor(props) {
