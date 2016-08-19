@@ -1,3 +1,5 @@
+// TODO This file is not complete, remove the hardcoded list, get the info from the server instead.
+
 'use strict';
 import genStyles from '../common/styles';
 import DropDown from '../common/dropDown';
@@ -60,7 +62,7 @@ export default class StampsList extends React.Component {
     fetchData () {
 
       console.log("----in get list with mail<<-------------", this.state.email)
-          let url = `http://172.20.10.3:3000/api/v1/messages/getMessages?token=12&email=${this.state.email}`;
+          let url = `https://alibi-serv.herokuapp.com/api/v1/messages/getMessages?token=12&email=${this.state.email}`;
           console.log(url)
           let request = new Request(url, {
             method: 'POST',
@@ -79,7 +81,7 @@ export default class StampsList extends React.Component {
               var hardcode =
               {
                 "results": [{
-                  "organization": "Pins Sent",
+                  "organization": "Sent",
                   "id": 12348124,
                   "users": [{
                     "user": {
@@ -95,7 +97,7 @@ export default class StampsList extends React.Component {
                         "state": "groningen",
                         "zip": "24360"
                       },
-                      "email": "evlynka@gmail.com",
+                      "email": "3304 West 3rd Ave, Vancouver, B.C.",
                       "username": "orangeleopard377",
                       "password": "427900",
                       "salt": "KrIEhHan",
@@ -120,9 +122,9 @@ export default class StampsList extends React.Component {
                     "user": {
                       "gender": "female",
                       "name": {
-                        "title": "ms",
-                        "first": "kristianne",
-                        "last": "van den oetelaar"
+                        "title": "q",
+                        "first": "",
+                        "last": "JUN 09 - 16:15"
                       },
                       "location": {
                         "street": "4802 donkerstraat",
@@ -130,7 +132,7 @@ export default class StampsList extends React.Component {
                         "state": "groningen",
                         "zip": "61965"
                       },
-                      "email": "kristianne.van den oetelaar12@example.com",
+                      "email": "Main St 201, Vancouver, B.C.",
                       "username": "ticklishmeercat405",
                       "password": "dolores",
                       "salt": "KwAVXd3o",
@@ -151,7 +153,81 @@ export default class StampsList extends React.Component {
                       "nationality": "NL"
                     }
                   }]
-              }]
+                },
+              {
+                "organization": "Received",
+                "id": 1235513,
+                "users": [{
+                  "user": {
+                    "gender": "female",
+                    "name": {
+                      "title": "MarioG: JUN 09 - 12:15",
+                      "first": "",
+                      "last": ""
+                    },
+                    "location": {
+                      "street": "4460 dame street",
+                      "county": "westmeath",
+                      "state": "nebraska",
+                      "zip": "65675"
+                    },
+                    "email": "908 East 34 East, Vancouver B.C.",
+                    "username": "whitemeercat565",
+                    "password": "emilia",
+                    "salt": "4iMLu9PN",
+                    "md5": "9bc08bb89d4b7163734e5a82bc1c913f",
+                    "sha1": "9de75c7d5e69bfc5ee6f983ee1e14389a4872fc1",
+                    "sha256": "edbac3b6a89cbca7682e39d196cc98250ebd08c562e39bfc421ce6df00779591",
+                    "registered": "1182085459",
+                    "dob": "1168428275",
+                    "phone": "061-325-8502",
+                    "cell": "081-708-1316",
+                    "PPS": "9813310T",
+                    "picture": {
+                      "large": "http://api.randomuser.me/portraits/women/69.jpg",
+                      "medium": "http://api.randomuser.me/portraits/med/women/69.jpg",
+                      "thumbnail": "http://api.randomuser.me/portraits/thumb/women/69.jpg"
+                    },
+                    "version": "0.6",
+                    "nationality": "IE"
+                  },
+                  "seed": "5619bbd757e136f605"
+                }, {
+                  "user": {
+                    "gender": "male",
+                    "name": {
+                      "title": "Numan: JUN 09 - 12:45",
+                      "first": "",
+                      "last": ""
+                    },
+                    "location": {
+                      "street": "2169 boghall road",
+                      "county": "westmeath",
+                      "state": "tennessee",
+                      "zip": "72993"
+                    },
+                    "email": "604 Carral St. Vancouver B.C.",
+                    "username": "crazyrabbit306",
+                    "password": "ventura",
+                    "salt": "tY0lih6e",
+                    "md5": "5084736a5dc54b3d01ab466cbe5a2bfd",
+                    "sha1": "f31399120c1ab554dda8ace456f0f6f54495b2ff",
+                    "sha256": "664a71760320c435aed0ce56a909bbc13de5df8ed125919a037b5b51c6cc8f4c",
+                    "registered": "1303936975",
+                    "dob": "364285980",
+                    "phone": "011-837-5946",
+                    "cell": "081-100-8075",
+                    "PPS": "8688583T",
+                    "picture": {
+                      "large": "http://api.randomuser.me/portraits/men/54.jpg",
+                      "medium": "http://api.randomuser.me/portraits/med/men/54.jpg",
+                      "thumbnail": "http://api.randomuser.me/portraits/thumb/men/54.jpg"
+                    },
+                    "version": "0.6",
+                    "nationality": "IE"
+                  }
+                  }]
+                }]
               }
 
       fetch(API_URL).then((response) => response.json()).then((responseData) => {
@@ -209,7 +285,7 @@ export default class StampsList extends React.Component {
     renderLoadingView() {
         return (
             <View style={styles.header}>
-                <Text style={styles.headerText}>Prints</Text>
+                <Text style={styles.headerText}>Alibies</Text>
                 <View style={styles.container}>
                     <ActivityIndicatorIOS
                         animating={!this.state.loaded}
@@ -225,7 +301,7 @@ export default class StampsList extends React.Component {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.headerText}>Messages</Text>
+                    <Text style={styles.headerText}>Alibies</Text>
                 </View>
                 <ListView
                     dataSource = {this.state.dataSource}
@@ -275,7 +351,7 @@ Object.assign(StampsList.prototype, {
                     onPress : () => this.createCalendarEvent(rowData, sectionID)
                 }
             ]
-            AlertIOS.alert('User\'s Email is ' + rowData.email, null, null);
+            AlertIOS.alert('Sent from: ' + rowData.email, null, null);
         }
 
     }

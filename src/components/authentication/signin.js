@@ -20,7 +20,7 @@ export default class Signin extends React.Component {
     this.setState({errorMessage: null});
     this.state.fade.setValue(1);
 
-    let url = `http://172.20.10.3:3000/api/v1/users/signin?token=12&email=${this.state.email}&password=${this.state.password}`;
+    let url = `https://alibi-serv.herokuapp.com/api/v1/users/signin?token=tok109tok&email=${this.state.email}&password=${this.state.password}`;
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})

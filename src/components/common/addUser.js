@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated, Dimensions} f
 import { Button } from 'react-native-vector-icons/Ionicons';
 import genStyles from './styles';
 
-const uri = "http://172.20.10.3:3000/api/v1/users";
+const uri = "https://alibi-serv.herokuapp.com/api/v1/users";
 
 export default class AddUser extends Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class AddUser extends Component {
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return this.state.errorMessage;
     }
-    let url = `${uri}/signup?token=12&username=${username}&password=${password}&email=${inputEmail}`;
+    let url = `${uri}/signup?token=tok109tok&username=${username}&password=${password}&email=${inputEmail}`;
     this.request(url);
   }
 
@@ -67,7 +67,7 @@ export default class AddUser extends Component {
     }
     AsyncStorage.getItem('email')
       .then(userEmail => {
-        let url = `${uri}/addContact?token=12&contactNickname=${nickname}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
+        let url = `${uri}/addContact?token=tok109tok&contactNickname=${nickname}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
         console.log(url)
         this.request(url);
       });
@@ -188,7 +188,7 @@ export default class AddUser extends Component {
         </View>
         <View style={genStyles.footer}>
           <Button name={"md-arrow-round-back"}
-                  size={60}
+                  size={60}rrr
                   backgroundColor="transparent"
                   style={{ justifyContent: 'center' }}
                   onPress={this.backBP.bind(this)}

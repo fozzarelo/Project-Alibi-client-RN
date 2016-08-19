@@ -51,7 +51,7 @@ export default class Send extends React.Component {
   }
 
   translateCoords(coords){
-    let url = `http://172.20.10.3:3000/api/v1/addresses/translateCoords?token=12&coords=${coords}`;
+    let url = `https://alibi-serv.herokuapp.com/api/v1/addresses/translateCoords?token=tok109tok&coords=${coords}`;
     console.log("Translate coords request:", url);
     let request = new Request(url, {
       method: 'POST',
@@ -93,7 +93,7 @@ export default class Send extends React.Component {
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return
     }
-    let url = `http://172.20.10.3:3000/api/v1/messages/sendMessage?token=12&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
+    let url = `https://alibi-serv.herokuapp.com/api/v1/messages/sendMessage?token=tok109tok&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
     console.log("Sending message request to server-------->>", url);
     let request = new Request(url, {
       method: 'POST',
