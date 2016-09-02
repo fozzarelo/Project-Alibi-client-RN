@@ -9,8 +9,8 @@ export default class Signin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
+      email: 'q',
+      password: 'q',
       errorMessage: '',
       fade: new Animated.Value(1), // init opacity
     };
