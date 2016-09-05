@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, AsyncStorage, TextInput, Animated, Dimensions} f
 import genStyles from '../common/styles';
 import DropDown from '../common/dropDown';
 import { Button } from 'react-native-vector-icons/Ionicons';
+import appData from '../helpers/constants'
 
 export default class Send extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ export default class Send extends React.Component {
   }
 
   translateCoords(coords){
-    let url = `https://alibi-serv.herokuapp.com/api/v1/addresses/translateCoords?token=tok109tok&coords=${coords}`;
+    let url = `${appData.urlBase}/addresses/translateCoords?token=${app.Data.urlToken}&coords=${coords}`;
     console.log("Translate coords request:", url);
     let request = new Request(url, {
       method: 'POST',
@@ -93,7 +94,7 @@ export default class Send extends React.Component {
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return
     }
-    let url = `https://alibi-serv.herokuapp.com/api/v1/messages/sendMessage?token=tok109tok&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
+    let url = `${appData.urlBase}/messages/sendMessage?token=${appData.urlToken}&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
     console.log("Sending message request to server-------->>", url);
     let request = new Request(url, {
       method: 'POST',
@@ -156,7 +157,7 @@ export default class Send extends React.Component {
   }
 
   messagesListBP(){
-    this.props.navigator.push({name: 'stampsList'})
+    this.props.navigator.push({name: 'list'})
   }
 
   onValueChange(value, key) {
@@ -175,7 +176,6 @@ export default class Send extends React.Component {
       />
     )
   }
-  // onPress={this.addUserBP.bind(this)}
 
   render() {
     if (!this.state.username) {

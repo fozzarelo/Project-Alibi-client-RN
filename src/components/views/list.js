@@ -5,6 +5,7 @@
 'use strict';
 import genStyles from '../common/styles';
 import DropDown from '../common/dropDown';
+import appData from '../helpers/constants'
 import { Button } from 'react-native-vector-icons/Ionicons';
 import React, { Component } from 'react';
 import {TouchableOpacity,       AlertIndicatorIOS,      ActivityIndicatorIOS,
@@ -12,7 +13,7 @@ import {TouchableOpacity,       AlertIndicatorIOS,      ActivityIndicatorIOS,
         View,                   AsyncStorage,           Animated,
         Dimensions, ListView} from 'react-native';
 
-export default class StampsList extends React.Component {
+export default class List extends React.Component {
     constructor(props) {
         super(props);
         this.state = this.initialState();
@@ -62,7 +63,7 @@ export default class StampsList extends React.Component {
     fetchData () {
 
       console.log("----in get list with mail<<-------------", this.state.email)
-      let url = `http://localhost:3000/api/v1/messages/getMessages?token=tok109tok&email=${this.state.email}`;
+      let url = `${appData.urlBase}/messages/getMessages?token=${appData.urlToken}&email=${this.state.email}`;
       console.log(url)
       let request = new Request(url, {
         method: 'POST',
@@ -149,6 +150,7 @@ export default class StampsList extends React.Component {
                     style      = {styles.listview}
                     renderRow  = {this.renderRow}
                     renderSectionHeader = {this.renderSectionHeader}
+                    enableEmptySections = {true}
                 />
                 <View style={genStyles.footer}>
                   <Button name={'md-arrow-round-back'}
@@ -171,7 +173,7 @@ export default class StampsList extends React.Component {
     }
 };
 
-Object.assign(StampsList.prototype, {
+Object.assign(List.prototype, {
     bindableMethods : {
         renderRow : function (rowData, sectionID, rowID) {
             return (

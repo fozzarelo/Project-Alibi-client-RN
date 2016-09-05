@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated, Dimensions} from 'react-native';
 // import Button from './button';
 import { Button } from 'react-native-vector-icons/Ionicons';
-import genStyles from './styles';
-
-const uri = "https://alibi-serv.herokuapp.com/api/v1/users";
+import genStyles from '../common/styles';
+import appData from '../helpers/constants'
 
 export default class AddUser extends Component {
   constructor(props) {
@@ -48,7 +47,8 @@ export default class AddUser extends Component {
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return this.state.errorMessage;
     }
-    let url = `${uri}/signup?token=tok109tok&username=${username}&password=${password}&email=${inputEmail}`;
+    let url = `${appData.urlBase}/users/signup?token=${appData.urlToken}&username=${username}&password=${password}&email=${inputEmail}`;
+    console.log("url here -- - - - - - - ->", url)
     this.request(url);
   }
 
@@ -67,7 +67,7 @@ export default class AddUser extends Component {
     }
     AsyncStorage.getItem('email')
       .then(userEmail => {
-        let url = `${uri}/addContact?token=tok109tok&contactNickname=${nickname}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
+        let url = `${appData.urlBase}/users/addContact?token=${appData.urlToken}&contactNickname=${nickname}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
         console.log(url)
         this.request(url);
       });

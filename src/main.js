@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import {StyleSheet, Navigator, AsyncStorage} from 'react-native';
 
-import Signin from './components/authentication/signin';
-import Send from './components/stamps/send';
-import Cam from './components/stamps/camera';
-import StampsList from './components/stamps/stampsList';
+import SignIn from './components/views/signIn';
+import Send from './components/views/send';
+import Cam from './components/views/camera';
+import List from './components/views/list';
+import AddUser from './components/views/addUser';
 
 import Drop from './components/common/dropDown';
-import AddUser from './components/common/addUser';
 
 
-var ROUTES = {signin: Signin,   addUser:  AddUser,
+var ROUTES = {signin: SignIn,   addUser:  AddUser,
               send:   Send,     cam: Cam,
-              dropDown: Drop,   stampsList: StampsList}
+              dropDown: Drop,   list: List}
 
 
 export default class Main extends React.Component{

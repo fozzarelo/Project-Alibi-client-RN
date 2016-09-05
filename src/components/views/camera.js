@@ -4,6 +4,8 @@ import { RNS3 } from 'react-native-aws3';
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import genStyles from '../common/styles';
+import appData from '../helpers/constants'
+
 var Camera = require('react-native-camera');
 
 
@@ -48,11 +50,8 @@ export default class Cam extends React.Component {
         keyPrefix: '',
         bucket: 'foot-print-pictures',
         region: 'us-west-2',
-        // accessKey: 'Add your key here',
-        // secretKey: 'Add you key here',
-        // TODO remember not to commit your aws credentials!
-        accessKey: 'AKIAIZDNBWBTII3SNIVQ',
-        secretKey: '8ctM1/ofYC6KF+eOf9luEz/41LrZKOFc08GVYGXL',
+        accessKey: appData.accessKey,
+        secretKey: appData.secretKey,
         successActionStatus: 201
       };
 

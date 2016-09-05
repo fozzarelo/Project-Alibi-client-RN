@@ -3,9 +3,9 @@ import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-n
 import { Button } from 'react-native-vector-icons/Ionicons';
 import Header from '../common/header';
 import genStyles from '../common/styles';
-import Cons from '../helpers/constants';
+import appData from '../helpers/constants';
 
-export default class Signin extends React.Component {
+export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,8 @@ export default class Signin extends React.Component {
     this.setState({errorMessage: null});
     this.state.fade.setValue(1);
 
-    let url = `https://alibi-serv.herokuapp.com/api/v1/users/signin?token=tok109tok&email=${this.state.email}&password=${this.state.password}`;
+    let url = `${appData.urlBase}/users/signin?token=${appData.urlToken}&email=${this.state.email}&password=${this.state.password}`;
+    console.log("--------->", url)
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
