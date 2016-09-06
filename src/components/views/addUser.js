@@ -47,7 +47,6 @@ export default class AddUser extends Component {
       return this.state.errorMessage;
     }
     let url = `${appData.urlBase}/users/signup?token=${appData.urlToken}&username=${username}&password=${password}&email=${inputEmail}`;
-    console.log("url here -- - - - - - - ->", url)
     this.request(url);
   }
 
@@ -67,7 +66,6 @@ export default class AddUser extends Component {
     AsyncStorage.getItem('email')
       .then(userEmail => {
         let url = `${appData.urlBase}/users/addContact?token=${appData.urlToken}&contactNickname=${nickname}&contactEmail=${inputEmail}&userEmail=${userEmail}`;
-        console.log(url)
         this.request(url);
       });
   }
@@ -82,23 +80,19 @@ export default class AddUser extends Component {
 
     fetch(request)
       .then((response) => {
-        //console.log("response ===========", response._bodyInit);
         return response.json();
       })
       .then((user) => {
-        console.log("user =========",user)
         if (user.error.length > 0) {
           this.setState({errorMessage: user.error});
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         } else {
-          // Store in devise
           if (this.props.isSignUp){
             AsyncStorage.setItem('email', user.email)
             AsyncStorage.setItem('username', user.username)
           }
           AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
             .then(() => {
-              // Reset our navigator route stack because we're no longer in the authentication flow
               this.props.navigator.immediatelyResetRouteStack([{name: 'send'}]);
             })
         }

@@ -21,7 +21,6 @@ export default class SignIn extends React.Component {
     this.state.fade.setValue(1);
 
     let url = `${appData.urlBase}/users/signin?token=${appData.urlToken}&email=${this.state.email}&password=${this.state.password}`;
-    console.log("--------->", url)
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -36,7 +35,6 @@ export default class SignIn extends React.Component {
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {
-          console.log("Successfully logged in")
           AsyncStorage.setItem('email', user.email)
           AsyncStorage.setItem('username', user.username)
           AsyncStorage.setItem('contacts', JSON.stringify(user.contacts))
@@ -52,7 +50,6 @@ export default class SignIn extends React.Component {
   }
 
   SignUpBP() {
-    // Navigate to signup
     this.props.navigator.push({
       name: 'addUser',
       passProps: {

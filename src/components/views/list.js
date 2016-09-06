@@ -54,25 +54,19 @@ export default class List extends React.Component {
       AsyncStorage.getItem('email')
         .then( mail => {
            this.setState({email: mail})
-           console.log("after getting the mail", this.state.email)
            this.fetchData();
         })
 
     }
 
     fetchData () {
-
-      console.log("----in get list with mail<<-------------", this.state.email)
       let url = `${appData.urlBase}/messages/getMessages?token=${appData.urlToken}&email=${this.state.email}`;
-      console.log(url)
       let request = new Request(url, {
         method: 'POST',
         headers: new Headers({'Content-Type': 'text/plain'})
       });
 
-      console.log("----sending request-------------", url)
       fetch(request).then((response) => response.json()).then((responseData) => {
-          console.log("Retrieved messages!", responseData)
           var cats = responseData,
               length = cats.length,
               dataBlob = {},

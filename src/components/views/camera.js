@@ -20,11 +20,6 @@ export default class Cam extends React.Component {
     };
   }
 
-  // TODO when do we reset the camera?
-  // componentWillMount() {
-  //   AsyncStorage.setItem('photoLink', '')
-  // }
-
   goBack(){
     this.props.navigator.pop()
   }
@@ -60,7 +55,6 @@ export default class Cam extends React.Component {
           if (response.status !== 201) {
             throw new Error('Failed to upload image to S3', response);
           }
-          console.log('*** BODY ***', response.body);
           AsyncStorage.setItem('photoLink', response.body.postResponse.location);
         });
     }

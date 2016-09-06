@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
 import { AppRegistry, Text, View, Picker } from 'react-native';
 
-//export const contacts = { primo: 'email@primo', amigo: 'email@amigo' };
-
 export default class DropDown extends React.Component {
 
-
-    // TODO Need to change this component so that it can be called via props.
-    // Need to be called with the contacts information from the server
-    // Need to construct the picker render with the array of items given as props
     constructor(context,props){
         super(context,props);
         this.props.contacts = {};
@@ -22,7 +16,6 @@ export default class DropDown extends React.Component {
       });
     }
 
-    // This builder uses the props, in this case they are contacts
     buildPicker(){
 
       return(

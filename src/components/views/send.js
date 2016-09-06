@@ -53,7 +53,6 @@ export default class Send extends React.Component {
 
   translateCoords(coords){
     let url = `${appData.urlBase}/addresses/translateCoords?token=${appData.urlToken}&coords=${coords}`;
-    console.log("Translate coords request:", url);
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -68,13 +67,11 @@ export default class Send extends React.Component {
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {
-          console.log('Translated address:', address.streetAddress);
           this.setState({position: address.streetAddress, notification:'reloaded'})
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
       })
       .catch(() => {
-        console.log('fetch error');
         this.setState({notification: 'fetch error'});
         Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       })
@@ -90,12 +87,10 @@ export default class Send extends React.Component {
 
     if (!targetEmail) {
       this.setState({notification: 'No email'});
-      console.log('-------Failed client side validation--------')
       Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       return
     }
     let url = `${appData.urlBase}/messages/sendMessage?token=${appData.urlToken}&address=${address}&targetEmail=${targetEmail}&userEmail=${userEmail}&photoLink=${photoLink}&lat=${lat}&lon=${lon}`;
-    console.log("Sending message request to server-------->>", url);
     let request = new Request(url, {
       method: 'POST',
       headers: new Headers({'Content-Type': 'text/plain'})
@@ -110,13 +105,11 @@ export default class Send extends React.Component {
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
         else {
-          console.log('message is being sent at:>>>', message.timeSent);
           this.setState({notification: 'Message sent'});
           Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
         }
       })
       .catch(() => {
-        console.log('message fetch failed');
         this.setState({notification: 'Connection error'});
         Animated.timing(this.state.fade, {toValue: 0, duration: 3000}).start();
       })
@@ -131,15 +124,12 @@ export default class Send extends React.Component {
     this.resetNotification.bind(this)()
     AsyncStorage.getItem('photoLink')
       .then( link => {
-          console.log("photoLink--------------", link);
           this.setState({photoLink: link});
           this.sendMessage.bind(this)()
       })
   }
 
   addPictureBP() {
-    // Send message
-    console.log('go to picture')
     this.props.navigator.push({name: 'cam'});
   }
 
@@ -149,7 +139,6 @@ export default class Send extends React.Component {
   }
 
   addUserBP() {
-      // Navigate to addUser
       this.props.navigator.push({
         name: 'addUser',
         passProps: {isSignUp: false}
