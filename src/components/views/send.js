@@ -52,7 +52,7 @@ export default class Send extends React.Component {
   }
 
   translateCoords(coords){
-    let url = `${appData.urlBase}/addresses/translateCoords?token=${app.Data.urlToken}&coords=${coords}`;
+    let url = `${appData.urlBase}/addresses/translateCoords?token=${appData.urlToken}&coords=${coords}`;
     console.log("Translate coords request:", url);
     let request = new Request(url, {
       method: 'POST',
