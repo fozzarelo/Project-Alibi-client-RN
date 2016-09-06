@@ -5,7 +5,7 @@
 'use strict';
 import genStyles from '../common/styles';
 import DropDown from '../common/dropDown';
-import appData from '../helpers/constants'
+import appData from '../../../keys'
 import { Button } from 'react-native-vector-icons/Ionicons';
 import React, { Component } from 'react';
 import {TouchableOpacity,       AlertIndicatorIOS,      ActivityIndicatorIOS,

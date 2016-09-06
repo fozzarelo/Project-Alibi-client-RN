@@ -1,5 +1,5 @@
 
-// Rename to constants.js
+// Rename to keys.js
 
 appData = {
   // Heroku Server

@@ -4,7 +4,7 @@ import { RNS3 } from 'react-native-aws3';
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import genStyles from '../common/styles';
-import appData from '../helpers/constants'
+import appData from '../../../keys'
 
 var Camera = require('react-native-camera');
 

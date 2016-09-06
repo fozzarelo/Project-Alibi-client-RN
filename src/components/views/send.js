@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, AsyncStorage, TextInput, Animated, Dimensions} f
 import genStyles from '../common/styles';
 import DropDown from '../common/dropDown';
 import { Button } from 'react-native-vector-icons/Ionicons';
-import appData from '../helpers/constants'
+import appData from '../../../keys'
 
 export default class Send extends React.Component {
   constructor(props) {

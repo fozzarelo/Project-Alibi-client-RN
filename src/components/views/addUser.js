@@ -1,9 +1,8 @@
-import React, { Component, PropTypes } from 'react';
-import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated, Dimensions} from 'react-native';
-// import Button from './button';
-import { Button } from 'react-native-vector-icons/Ionicons';
-import genStyles from '../common/styles';
-import appData from '../helpers/constants'
+import React, { Component, PropTypes } from 'react'
+import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated, Dimensions} from 'react-native'
+import { Button } from 'react-native-vector-icons/Ionicons'
+import genStyles from '../common/styles'
+import appData from '../../../keys'
 
 export default class AddUser extends Component {
   constructor(props) {

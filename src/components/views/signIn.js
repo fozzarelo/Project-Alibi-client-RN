@@ -3,7 +3,7 @@ import {StyleSheet, Text, View, TextInput, AsyncStorage, Animated} from 'react-n
 import { Button } from 'react-native-vector-icons/Ionicons';
 import Header from '../common/header';
 import genStyles from '../common/styles';
-import appData from '../helpers/constants';
+import appData from '../../../keys';
 
 export default class SignIn extends React.Component {
   constructor(props) {
