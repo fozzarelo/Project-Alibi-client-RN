@@ -39,4 +39,4 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
-src/components/helpers/constants.js
+keys.js
